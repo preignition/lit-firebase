@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+  <script type="importmap" >
+     {
+      "imports": {
+        "@morbidick/lit-element-notify": "/web_modules/@morbidick/lit-element-notify.js",
+        "@preignition/preignition-mixin": "/web_modules/@preignition/preignition-mixin.js",
+        "@vaadin/router": "/web_modules/@vaadin/router.js",
+        "@vaadin/vaadin-tabs": "/web_modules/@vaadin/vaadin-tabs.js",
+        "pwa-helpers/media-query.js": "/web_modules/pwa-helpers/media-query.js",
+        "lit-element": "/web_modules/lit-element.js",
+        "lit-html": "/web_modules/lit-html.js"
+    }
+  }
+  </script>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '/index.elements.js';
+
+    render(
+      html`
+        <preignition-blog-app >
+          some more light-dom
+        </preignition-blog-app>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
