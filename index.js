@@ -1,2 +1,2 @@
-import './index.elements.js'
-export * from './index.class.js';
+import './src/lit-firebase-document.js'
+import './src/lit-firebase-query.js'

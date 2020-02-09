@@ -1,15 +1,7 @@
-import { LitElement, html, css } from 'lit-element';
-import { default as FirabaseDatabase } from './lit-firebase-database-mixin.js';
+import { UpdatingElement } from 'lit-element';
+import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
 
-class  LitFirebaseDocument extends FirabaseDatabase(LitElement) {
-
-  static get styles() {
-    return css `
-    :host {
-      display: block;
-    }
-    `;
-  }
+class  LitFirebaseDocument extends FirebaseDatabase(UpdatingElement) {
 
   static get properties() {
     return {

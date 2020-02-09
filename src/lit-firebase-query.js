@@ -1,5 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
-import { default as FirabaseDatabase } from './lit-firebase-database-mixin.js';
+import { UpdatingElement } from 'lit-element';
+import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
 
 const __valueWithKey = (key, value) => {
   const leaf = typeof value !== 'object';
@@ -13,15 +13,7 @@ const __valueWithKey = (key, value) => {
 
 const __snapshotToValue = (snapshot) => __valueWithKey(snapshot.key, snapshot.val());
 
-class LitFirebaseQuery extends FirabaseDatabase(LitElement) {
-
-  static get styles() {
-    return css `
-    :host {
-      display: block;
-    }
-    `;
-  }
+class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
 
   static get properties() {
     return {
