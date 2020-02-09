@@ -1,8 +1,8 @@
-# \<@preignition/lit-firebase>
+# \<preignition/lit-firebase>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
-A lit-element based implementation of (polymerfire)[https://github.com/FirebaseExtended/polymerfire]. 
+A lit-element based implementation of [polymerfire](https://github.com/FirebaseExtended/polymerfire).
 
 For the time being, only `firebase-document` and `firebase-query` have been migrated (to resp. `lit-firebase-document` and `lit-firebase-query`). 
 `firebase-auth` and `firebase-app` will not be upgraded as it is usually simpler to instantiate database and handle authentication via js. 
@@ -22,6 +22,8 @@ npm i @preignition/lit-firebase
 <script type="module">
   import '@preignition/lit-firebase';
 </script>
+
+and in lit-element render: 
 
 <lit-firebase-document path="myPath" @data-changed="${e=> this.data = e.detail.value}"></lit-firebase-document>
 <lit-firebase-query path="myPath" @data-changed="${e=> this.data = e.detail.value}"></lit-firebase-query>
@@ -46,31 +48,3 @@ or
 ```bash
 npm run test:compatibility
 ```
-
-## Testing with Karma via BrowserStack
-To run the suite of karma tests in BrowserStack, run
-```bash
-npm run test:bs
-```
-
-## Managing Test Snapshots
-You can manage the test snapshots using
-```bash
-npm run test:update-snapshots
-```
-or
-```bash
-npm run test:prune-snapshots
-```
-
-
-## Local Demo with `es-dev-server`
-```bash
-npm start
-```
-To run a local development server that serves the basic demo located in `demo/index.html`
-
-```bash
-npm start:compatibility
-```
-To run a local development server in compatibility mode for older browsers that serves the basic demo located in `demo/index.html`
