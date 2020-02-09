@@ -1,6 +1,6 @@
 {
   "name": "@preignition/lit-firebase",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Webcomponent for interactig with Firebase, inspired by polymerfire, but based on lit-element",
   "author": {
     "name": "christophe geiser",
