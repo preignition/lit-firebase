@@ -6,6 +6,13 @@
     "name": "christophe geiser",
     "email": "christophe@preignition.org"
   },
+  "keywords": [
+    "lit-element",
+    "web-components",
+    "firebase",
+    "database",
+    "realtime"
+  ],
   "license": "MIT",
   "main": "index.js",
   "module": "index.js",
@@ -40,20 +47,9 @@
     "es-dev-server": "^1.23.0",
     "eslint": "^6.1.0",
     "husky": "^1.0.0",
-    "lint-staged": "^8.0.0",
-    "snowpack": "^1.1.2"
+    "lint-staged": "^8.0.0"
   },
-  "snowpack": {
-    "webDependencies": [
-      "pwa-helpers/media-query.js",
-      "lit-element",
-      "lit-html"
-    ],
-    "dedupe": [
-      "lit-html",
-      "lit-element"
-    ]
-  },
+
   "eslintConfig": {
     "extends": [
       "@open-wc/eslint-config",

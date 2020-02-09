@@ -1,46 +1,30 @@
-# \<preignition-template>
+# \<@preignition/lit-firebase>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
+A lit-element based implementation of (polymerfire)[https://github.com/FirebaseExtended/polymerfire]. 
+
+For the time being, only `firebase-document` and `firebase-query` have been migrated (to resp. `lit-firebase-document` and `lit-firebase-query`). 
+`firebase-auth` and `firebase-app` will not be upgraded as it is usually simpler to instantiate database and handle authentication via js. 
+
+Those components require firebase SDK to be made available on the client (see https://firebase.google.com/docs/web/setup).
+
+Use at your own risks as this is beta product. 
+
+
 ## Installation
 ```bash
-npm i preignition-template
+npm i @preignition/lit-firebase
 ```
 
 ## Usage
 ```html
 <script type="module">
-  import 'preignition-template/preignition-template.js';
+  import '@preignition/lit-firebase';
 </script>
 
-<preignition-template></preignition-template>
-```
-
-## Linting with ESLint, Prettier, and Types
-To scan the project for linting errors, run
-```bash
-npm run lint
-```
-
-You can lint with ESLint and Prettier individually as well
-```bash
-npm run lint:eslint
-```
-```bash
-npm run lint:prettier
-```
-
-To automatically fix many linting errors, run
-```bash
-npm run format
-```
-
-You can format using ESLint and Prettier individually as well
-```bash
-npm run format:eslint
-```
-```bash
-npm run format:prettier
+<lit-firebase-document path="myPath" @data-changed="${e=> this.data = e.detail.value}"></lit-firebase-document>
+<lit-firebase-query path="myPath" @data-changed="${e=> this.data = e.detail.value}"></lit-firebase-query>
 ```
 
 ## Testing with Karma
