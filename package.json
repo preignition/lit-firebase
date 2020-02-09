@@ -1,6 +1,6 @@
 {
   "name": "@preignition/lit-firebase",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Webcomponent for interactig with Firebase, inspired by polymerfire, but based on lit-element",
   "author": {
     "name": "christophe geiser",
@@ -49,7 +49,6 @@
     "husky": "^1.0.0",
     "lint-staged": "^8.0.0"
   },
-
   "eslintConfig": {
     "extends": [
       "@open-wc/eslint-config",
