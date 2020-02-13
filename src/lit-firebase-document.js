@@ -1,7 +1,16 @@
-import { UpdatingElement } from 'lit-element';
+import { UpdatingElement, css } from 'lit-element';
 import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
 
 class  LitFirebaseDocument extends FirebaseDatabase(UpdatingElement) {
+
+   //  static get styles() {
+   //    return [
+   //      css `
+   //      :host {
+   //        display: none
+   //      }`
+   //    ];
+   // }
 
   static get properties() {
     return {
