@@ -1,5 +1,5 @@
 {
-  "name": "@preignition/lit-firebase",
+  "name": "@preignition/lif",
   "version": "0.3.2",
   "description": "Webcomponent for interactig with Firebase, inspired by polymerfire, but based on lit-element",
   "author": {

@@ -1,5 +1,5 @@
 import { UpdatingElement } from 'lit-element';
-import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
+import { default as FirebaseDatabase } from './lif-database-mixin.js';
 
 const __valueWithKey = (key, value) => {
   const leaf = typeof value !== 'object';
@@ -327,4 +327,4 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
 export default LitFirebaseQuery;
 
 // Register the new element with the browser.
-customElements.define('lit-firebase-query', LitFirebaseQuery);
+customElements.define('lif-query', LitFirebaseQuery);

@@ -1,5 +1,5 @@
 import { UpdatingElement} from 'lit-element';
-import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
+import { default as FirebaseDatabase } from './lif-database-mixin.js';
 
 class  LitFirebaseDocument extends FirebaseDatabase(UpdatingElement) {
 
@@ -67,5 +67,5 @@ class  LitFirebaseDocument extends FirebaseDatabase(UpdatingElement) {
 export default LitFirebaseDocument;
 
 // Register the new element with the browser.
-customElements.define('lit-firebase-document',  LitFirebaseDocument);
+customElements.define('lif-document',  LitFirebaseDocument);
 

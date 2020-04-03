@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
+import { default as FirebaseDatabase } from './lif-database-mixin.js';
 
 class LitFirebaseSpan extends FirebaseDatabase(LitElement) {
 
@@ -124,4 +124,4 @@ class LitFirebaseSpan extends FirebaseDatabase(LitElement) {
 }
 
 export default LitFirebaseSpan;
-customElements.define('lit-firebase-span', LitFirebaseSpan);
+customElements.define('lif-span', LitFirebaseSpan);

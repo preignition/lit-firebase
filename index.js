@@ -1,3 +1,3 @@
-import './src/lit-firebase-document.js'
-import './src/lit-firebase-query.js'
-import './src/lit-firebase-span.js'
+import './src/lif-document.js'
+import './src/lif-query.js'
+import './src/lif-span.js'

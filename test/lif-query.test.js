@@ -3,7 +3,7 @@ import firebase from 'firebase/app';
 import * as database from 'firebase/database';
 
 
-import '../src/lit-firebase-query.js';
+import '../src/lif-query.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTP-eiQezleFsV2WddFBAhF_WEzx_8v_g',
@@ -26,7 +26,7 @@ const clearTest = () => {
 describe('Lit Firebase Query', () => {
   it('is instantiated with a default database', async () => {
     const el = await fixture(html `
-      <lit-firebase-query ></lit-firebase-query>
+      <lif-query ></lif-query>
     `);
 
     expect(el.app.name).to.equal('[DEFAULT]');
@@ -34,7 +34,7 @@ describe('Lit Firebase Query', () => {
 
   it('is instantiated with a named database', async () => {
     const el = await fixture(html `
-      <lit-firebase-query app-name="DB"></lit-firebase-query>
+      <lif-query app-name="DB"></lif-query>
     `);
 
     expect(el.app.name).to.equal('DB');
@@ -45,7 +45,7 @@ describe('Lit Firebase Query', () => {
     let key;
 
     const el = fixture(html `
-    <lit-firebase-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lit-firebase-query>
+    <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
   `);
 
     clearTest()
@@ -65,7 +65,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = await fixture(html `
-      <lit-firebase-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lit-firebase-query>
+      <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
     `);
 
     expect(val.length).to.equal(1);
@@ -76,7 +76,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = fixture(html `
-    <lit-firebase-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lit-firebase-query>
+    <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
   `);
 
     firebase.app().database().ref('/testQuery/b').update({ a: 1 })
@@ -92,7 +92,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = fixture(html `
-    <lit-firebase-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lit-firebase-query>
+    <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
   `);
 
     firebase.app().database().ref('/testQuery/b').update({ a: 2 })
@@ -108,7 +108,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = await fixture(html `
-    <lit-firebase-query path="/testQuery" limit-to-first="1" @data-changed="${(e) => {val = e.detail.value; }}"></lit-firebase-query>
+    <lif-query path="/testQuery" limit-to-first="1" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
   `);
 
   expect(val.length).to.equal(1);
@@ -119,7 +119,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = await fixture(html `
-    <lit-firebase-query path="/testQuery" limit-to-last="1" @data-changed="${(e) => {val = e.detail.value; }}"></lit-firebase-query>
+    <lif-query path="/testQuery" limit-to-last="1" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
   `);
 
   expect(val.length).to.equal(1);
@@ -133,7 +133,7 @@ describe('Lit Firebase Query', () => {
     firebase.app().database().ref('/testQuery').remove()
 
     const el = await fixture(html `
-      <lit-firebase-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value}}"></lit-firebase-query>
+      <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value}}"></lif-query>
     `);
 
     expect(val.length).to.equal(0);

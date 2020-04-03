@@ -3,7 +3,7 @@ import firebase from 'firebase/app';
 import * as database from 'firebase/database';
 
 
-import '../src/lit-firebase-document.js';
+import '../src/lif-document.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTP-eiQezleFsV2WddFBAhF_WEzx_8v_g',
@@ -27,7 +27,7 @@ const clearTest = () => {
 describe('Lit Firebase Document', () => {
   it('is instantiated with a default database', async () => {
     const el = await fixture(html `
-      <lit-firebase-document></lit-firebase-document>
+      <lif-document></lif-document>
     `);
 
     expect(el.app.name).to.equal('[DEFAULT]');
@@ -35,7 +35,7 @@ describe('Lit Firebase Document', () => {
 
   it('is instantiated with a named database', async () => {
     const el = await fixture(html `
-      <lit-firebase-document app-name="DB"></lit-firebase-document>
+      <lif-document app-name="DB"></lif-document>
     `);
 
     expect(el.app.name).to.equal('DB');
@@ -48,7 +48,7 @@ describe('Lit Firebase Document', () => {
       .then(() => {
         firebase.app().database().ref('/testDocument/myValue').set('a')
         const el = fixture(html `
-        <lit-firebase-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lit-firebase-document>
+        <lif-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lif-document>
       `);
         return el;
       })
@@ -64,7 +64,7 @@ describe('Lit Firebase Document', () => {
     firebase.app().database().ref('/testDocument/myValue').remove()
 
     const el = await fixture(html `
-      <lit-firebase-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lit-firebase-document>
+      <lif-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lif-document>
     `);
 
     expect(val).to.equal(null);
@@ -77,7 +77,7 @@ describe('Lit Firebase Document', () => {
     firebase.app().database().ref('/testDocument/myValue').remove()
 
     const el = await fixture(html `
-      <lit-firebase-document  .data="${data}" path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lit-firebase-document>
+      <lif-document  .data="${data}" path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lif-document>
     `);
 
     expect(val.a).to.equal(1);
@@ -90,7 +90,7 @@ describe('Lit Firebase Document', () => {
     let count = 0;
 
     const el = await fixture(html `
-      <lit-firebase-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value; count++;}}"></lit-firebase-document>
+      <lif-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value; count++;}}"></lif-document>
     `);
 
     await elementUpdated(el);
@@ -111,7 +111,7 @@ describe('Lit Firebase Document', () => {
     let count = 0;
 
     const el = await fixture(html `
-      <lit-firebase-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value; count++;}}"></lit-firebase-document>
+      <lif-document path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value; count++;}}"></lif-document>
     `);
 
     await elementUpdated(el);
@@ -131,7 +131,7 @@ describe('Lit Firebase Document', () => {
     let count = 0;
 
     const el = await fixture(html `
-      <lit-firebase-document  @data-changed="${(e) => {val = e.detail.value; count++;}}"></lit-firebase-document>
+      <lif-document  @data-changed="${(e) => {val = e.detail.value; count++;}}"></lif-document>
     `);
 
     el.data = {a:3}

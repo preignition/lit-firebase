@@ -3,7 +3,7 @@
  *
  * @param {LitElement} baseElement - the LitElement to extend
  */
-import { default as FirebaseApp } from './lit-firebase-app-mixin.js';
+import { default as FirebaseApp } from './lif-app-mixin.js';
 
 
 /**
