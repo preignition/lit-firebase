@@ -32,7 +32,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
        */
       query: {
         type: Object,
-        // observer: '__queryChanged'
       },
 
       /**
@@ -44,7 +43,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       orderByChild: {
         type: String,
         attribute: 'order-by-child'
-        // value: ''
       },
 
       /**
@@ -54,7 +52,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       orderByValue: {
         type: Boolean,
         attribute: 'order-by-value'
-        // value: false
       },
 
       /**
@@ -67,7 +64,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       startAt: {
         type: String,
         attribute: 'start-at'
-        // value: ''
       },
 
       /**
@@ -80,7 +76,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       endAt: {
         type: String,
         attribute: 'end-at'
-        // value: ''
       },
 
       /**
@@ -92,7 +87,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       equalTo: {
         type: Object,
         attribute: 'equal-to'
-        // value: null
       },
 
       /**
@@ -104,7 +98,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       limitToFirst: {
         type: Number,
         attribute: 'limit-to-first'
-        // value: 0
       },
 
       /**
@@ -176,15 +169,15 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       query = query.limitToLast(this.limitToLast);
     }
 
-    if (this.startAt) {
+    if (this.startAt !== undefined) {
       query = query.startAt(this.startAt);
     }
 
-    if (this.endAt) {
+    if (this.endAt !== undefined) {
       query = query.endAt(this.endAt);
     }
 
-    if (this.equalTo || this.equalTo === '') {
+    if (this.equalTo !== undefined) {
       query = query.equalTo(this.equalTo);
     }
 
@@ -223,10 +216,6 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
     return this.__remote.findIndex(item => item.$key === key);
   }
 
-  dispatchChange() {
-    this.dispatchEvent(new CustomEvent('data-changed', { detail: { value: this.__remote }, bubbles: true, composed: true }));
-  }
-
   __onFirebaseValue(snapshot) {
     if (snapshot.hasChildren()) {
       const data = [];
@@ -240,8 +229,8 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
 
       this.__remote = data;
     }
-
-    this.dispatchChange();
+    this.dispatchValue();
+    // this.dispatchChange(false, !!this._remote);
     this.log && console.info('set value', this.__remote);
 
     const { query } = this;
@@ -267,7 +256,7 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
 
     this.__map[key] = value;
     this.__remote.splice(previousChildIndex + 1, 0, value);
-    this.dispatchChange();
+    this.dispatchValue();
   }
 
   __onFirebaseChildRemoved(snapshot) {
@@ -282,7 +271,7 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       if (this.__indexFromKey(key) >= 0) {
         this.__remote.splice(this.__indexFromKey(key), 1);
       }
-      this.dispatchChange();
+     this.dispatchValue();
     }
   }
 
@@ -311,7 +300,7 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       }
 
     }
-    this.dispatchChange();
+    this.dispatchValue();
   }
 
   __onFirebaseChildMoved(snapshot, previousChildKey) {
@@ -328,17 +317,14 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
       this.__remote.splice(index, 1);
       this.__remote.splice(targetIndex, 0, this.__map[key]);
 
-      this.dispatchChange();
+      this.dispatchValue();
 
     }
   }
 
-
-
-
 }
 
-
+export default LitFirebaseQuery;
 
 // Register the new element with the browser.
 customElements.define('lit-firebase-query', LitFirebaseQuery);

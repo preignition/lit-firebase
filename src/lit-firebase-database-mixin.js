@@ -5,6 +5,14 @@
  */
 import { default as FirebaseApp } from './lit-firebase-app-mixin.js';
 
+
+/**
+ * cheks whether path is a valid path
+ * @param  {String} path firebase database path
+ * @return {Boolean}      true if path is valid
+ */
+const pathReady = (path) => path && path.split('/').slice(1).indexOf('') < 0;
+
 export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
 
   static get properties() {
@@ -18,7 +26,6 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
 
       ref: {
         type: Object
-        // computed: '__computeRef(db, path, disabled)',
       },
 
       /**
@@ -27,8 +34,6 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
        */
       path: {
         type: String
-        // value: null,
-        // observer: '__pathChanged'
       },
 
       /**
@@ -60,10 +65,6 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
     }
   }
 
-  __pathReady(path) {
-    return path && path.split('/').slice(1).indexOf('') < 0;
-  }
-
   __computeDb(app) {
     this.db = app ? app.database() : null;
   }
@@ -71,13 +72,43 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
   __computeRef(db, path) {
     if (db == null ||
       path == null ||
-      !this.__pathReady(path) ||
+      !pathReady(path) ||
       this.disabled) {
       this.ref = null;
       return;
     }
 
     this.ref = db.ref(path);
+    this.dispatchLoading();
+  }
+
+  /**
+   * called when we start loading data, i.e. when this.ref is set
+   */
+  dispatchLoading() {
+    this.__dispatchChange(true);
+  }
+  
+  /**
+   * called when we we have received data 
+   */
+  dispatchValue() {
+    this.__dispatchChange(false);
+  }
+
+  /**
+   * notify outisde world about change 
+   * @param  {Boolean} loading           true if we are loading data (just once this.ref is set)
+   * @param  {Boolean} skipDispatchValue when true 
+   * @return {[type]}                   [description]
+   */
+  __dispatchChange(loading) {
+    if(!loading) {
+      this.log &&  console.info('data-changed', this.__remote);
+      this.dispatchEvent(new CustomEvent('data-changed', { detail: { value: this.__remote }, bubbles: true, composed: true }));
+    }
+    this.dispatchEvent(new CustomEvent('loading-changed', { detail: { value: loading }, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('exists-changed', { detail: { value: loading ? null : !!this.__remote }, bubbles: true, composed: true }));
   }
 }
 

@@ -1,16 +1,7 @@
-import { UpdatingElement, css } from 'lit-element';
+import { UpdatingElement} from 'lit-element';
 import { default as FirebaseDatabase } from './lit-firebase-database-mixin.js';
 
 class  LitFirebaseDocument extends FirebaseDatabase(UpdatingElement) {
-
-   //  static get styles() {
-   //    return [
-   //      css `
-   //      :host {
-   //        display: none
-   //      }`
-   //    ];
-   // }
 
   static get properties() {
     return {
@@ -68,9 +59,13 @@ class  LitFirebaseDocument extends FirebaseDatabase(UpdatingElement) {
     onValue(snap) {
       this.__remote = snap.val();
       this.log && console.info('read value', this.__remote);
-      this.dispatchEvent(new CustomEvent('data-changed', {detail: {value: this.__remote}, bubbles: true, composed: true})); 
+      this.dispatchValue();
+      
     }
 }
 
+export default LitFirebaseDocument;
+
 // Register the new element with the browser.
 customElements.define('lit-firebase-document',  LitFirebaseDocument);
+

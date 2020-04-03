@@ -77,7 +77,7 @@ describe('Lit Firebase Document', () => {
     firebase.app().database().ref('/testDocument/myValue').remove()
 
     const el = await fixture(html `
-      <lit-firebase-document .data="${data}" path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lit-firebase-document>
+      <lit-firebase-document  .data="${data}" path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lit-firebase-document>
     `);
 
     expect(val.a).to.equal(1);
