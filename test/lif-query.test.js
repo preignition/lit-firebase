@@ -65,7 +65,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = await fixture(html `
-      <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
+      <lif-query log path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
     `);
 
     expect(val.length).to.equal(1);

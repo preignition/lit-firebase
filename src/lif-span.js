@@ -1,26 +1,27 @@
 import { LitElement, html, css } from 'lit-element';
+import { nothing, TemplateResult } from 'lit-html';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import DOMPurify from 'dompurify';
 import { default as FirebaseDatabase } from './lif-database-mixin.js';
 
-class LitFirebaseSpan extends FirebaseDatabase(LitElement) {
-
-  static get styles() {
-    return css `
-    :host {
-      display: inline;
-    }
-    
-    /*
-    :host::before,
-    :host::after {
-      content: " ";
-      display: inline-block;
-    }
-    */
+const inner = (content) => {
+  if (!content) {
+    return html`
+      ${nothing}
     `;
   }
 
+  return html`
+    ${unsafeHTML(DOMPurify.sanitize(content))}
+  `;
+};
+
+class LifSpan extends FirebaseDatabase(LitElement) {
+
+  
   static get properties() {
     return {
+      
       ...super.properties,
 
       /*
@@ -54,7 +55,21 @@ class LitFirebaseSpan extends FirebaseDatabase(LitElement) {
 
       loading: {
         type: Boolean
-      }
+      },
+
+      /*
+       * a `format` taking value as parameter
+       */
+      format: {
+        type: Function
+      },
+
+      /*
+       * `inner` when true, inject hml
+       */
+      inner: {
+        type: Boolean,
+      },
 
 
     }
@@ -69,30 +84,35 @@ class LitFirebaseSpan extends FirebaseDatabase(LitElement) {
   render() {
     return this.loading ? 
         html `<span part="loading">${this.loadingValue}</span>` :
-        this.exists ? html `<span part="value">${this.value}</span>` :
-          html `<span part="default">${this.defaultValue}</span>`;
+        this.exists ?  this.renderValue() : html `<span part="default">${this.defaultValue}</span>`;
+  }
+
+  renderValue() {
+    return this.inner ? inner(this.value) : html `<span part="value">${this.format(this.value)}</span>`;
   }
 
   constructor() {
     super();
-    this.defaultValue = 'no value';
-    this.errorValue = 'problem with value';
-    this.loadingValue = 'loading...'
+    this.format = (value) => value;
+    this.defaultValue = '';
+    this.errorValue = '⚠';
+    this.inner = false;
+    this.loadingValue = '...'
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback()
     if (this.ref) {
       this.ref.off('value', this.onValue, this);
     }
+    super.disconnectedCallback()
   }
 
   update(props) {
-    super.update(props);
     this.log && console.info('update document props', props.keys());
     if (props.has('ref')) {
       this.__setRef(this.ref, props.get('ref'))
     }
+    super.update(props);
   }
 
   __setRef(ref, old) {
@@ -110,18 +130,19 @@ class LitFirebaseSpan extends FirebaseDatabase(LitElement) {
   }
 
   onValue(snap) {
-    super.onValue(snap);
-    this.loading = false;  
+    this.__remote = snap.val();
+    this.loading = false; 
+    this.log && console.info('data from db', this.__remote) 
     if (Object(this.__remote) === this.__remote) {
       this.log && console.warn('expecting a primitive, got an object', this.path)
       this.value = this.errorValue;
       return;
     }
     this.value = this.__remote;
-    this.exits = !!this.value;
+    this.exists = this.__remote !== null;
     this.dispatchValue();
   }
 }
 
-export default LitFirebaseSpan;
-customElements.define('lif-span', LitFirebaseSpan);
+export default LifSpan;
+customElements.define('lif-span', LifSpan);

@@ -3,7 +3,8 @@
  *
  * @param {LitElement} baseElement - the LitElement to extend
  */
-import { default as FirebaseApp } from './lif-app-mixin.js';
+import  FirebaseApp from './lif-app-mixin.js';
+import NetworkStatus from './lif-network-status-mixin.js';
 
 
 /**
@@ -13,7 +14,7 @@ import { default as FirebaseApp } from './lif-app-mixin.js';
  */
 const pathReady = (path) => path && path.split('/').slice(1).indexOf('') < 0;
 
-export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
+export const Mixin = (baseElement) => class extends NetworkStatus(FirebaseApp(baseElement)) {
 
   static get properties() {
     return {
@@ -44,7 +45,7 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
       disabled: {
         type: Boolean,
         value: false
-      },
+      }
 
     }
 
@@ -88,7 +89,7 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
   dispatchLoading() {
     this.__dispatchChange(true);
   }
-  
+
   /**
    * called when we we have received data 
    */
@@ -97,18 +98,51 @@ export const Mixin = (baseElement) => class extends FirebaseApp(baseElement) {
   }
 
   /**
+   * @override
+   * Updates the `online` property to reflect the browser connection status.
+   */
+  refreshNetworkStatus() {
+    if (!this.ref) {
+      return;
+    }
+
+    if (window.navigator.onLine) {
+      this.db.goOnline();
+    } else {
+      this.db.goOffline();
+    }
+  }
+
+  /**
    * notify outisde world about change 
+   * we need to set path in event detail to make sure the value is read from detail and not form 
+   * host property (see Polymer property-effects handleNotification)
    * @param  {Boolean} loading           true if we are loading data (just once this.ref is set)
    * @param  {Boolean} skipDispatchValue when true 
    * @return {[type]}                   [description]
    */
   __dispatchChange(loading) {
-    if(!loading) {
-      this.log &&  console.info('data-changed', this.__remote);
-      this.dispatchEvent(new CustomEvent('data-changed', { detail: { value: this.__remote }, bubbles: true, composed: true }));
+
+    if (!loading) {
+      this.log && console.info('data-changed', this.__remote);
+
+      /*
+      
+      Note(cg): we need this as we are dispatching event without path.
+      Polymer handles notifications differently:
+        if (fromPath) {
+          toPath = Polymer.Path.translate(fromProp, toPath, fromPath);
+          value = detail && detail.value;
+        } else {
+          value = event.currentTarget[fromProp];
+        }
+
+      */
+
+      this.dispatchEvent(new CustomEvent('data-changed', { detail: { value: this.__remote } }));
     }
-    this.dispatchEvent(new CustomEvent('loading-changed', { detail: { value: loading }, bubbles: true, composed: true }));
-    this.dispatchEvent(new CustomEvent('exists-changed', { detail: { value: loading ? null : !!this.__remote }, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('loading-changed', { detail: { value: loading, path: 'loading' } }));
+    this.dispatchEvent(new CustomEvent('exists-changed', { detail: { value: loading ? null : !(this.__remote === null || this.__remote === undefined), path: 'exists' } }));
   }
 }
 

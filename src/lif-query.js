@@ -13,7 +13,7 @@ const __valueWithKey = (key, value) => {
 
 const __snapshotToValue = (snapshot) => __valueWithKey(snapshot.key, snapshot.val());
 
-class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
+class LifQuery extends FirebaseDatabase(UpdatingElement) {
 
   static get properties() {
     return {
@@ -23,8 +23,8 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
        * `data` 
        */
       // data: {
-      //   type: Object,
-      // }
+      //   type: Array,
+      // },
 
       /**
        * [`firebase.database.Query`](https://firebase.google.com/docs/reference/js/firebase.database.Query#property)
@@ -114,6 +114,14 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
     }
   }
 
+  get data() {
+    return this.__remote;
+  }
+
+  set data(value) {
+    // Note(cg): do nothing. But we need a setter
+  }
+
   constructor() {
     super();
     this.__map = {};
@@ -121,21 +129,24 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback()
     if (this.query) {
       this.__removeListeners(this.query);
     }
+    super.disconnectedCallback()
   }
 
   update(props) {
-    super.update(props);
-    this.log && console.info('update query props', props.keys());
+    if(this.log) {
+      console.info('update query props');
+      for (const item of props) console.log(item);
+    } 
     if (props.has('ref') || props.has('orderByChild') || props.has('orderByValue') || props.has('limitToFirst') || props.has('limitToLast') || props.has('startAt') || props.has('endAt') || props.has('equalTo')) {
       this.__setQuery(this.ref, props.get('ref'))
     }
     if (props.has('query')) {
       this.__queryChanged(this.query, props.get('query'))
     }
+    super.update(props);
   }
 
   __setRef(ref, old) {
@@ -324,7 +335,7 @@ class LitFirebaseQuery extends FirebaseDatabase(UpdatingElement) {
 
 }
 
-export default LitFirebaseQuery;
+export default LifQuery;
 
 // Register the new element with the browser.
-customElements.define('lif-query', LitFirebaseQuery);
+customElements.define('lif-query', LifQuery);
