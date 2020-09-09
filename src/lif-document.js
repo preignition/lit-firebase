@@ -9,6 +9,10 @@ class LifDocument extends FirebaseDatabase(UpdatingElement) {
     }
   }
 
+  set() {
+    console.info('set LIF', this, arguments);
+  }
+
   get data() {
     return this.__remote;
   }

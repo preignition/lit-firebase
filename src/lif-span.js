@@ -88,7 +88,7 @@ class LifSpan extends FirebaseDatabase(LitElement) {
   }
 
   renderValue() {
-    return this.inner ? inner(this.value) : html `<span part="value">${this.format(this.value)}</span>`;
+    return this.inner ? inner(this.format(this.value)) : html `<span part="value">${this.format(this.value)}</span>`;
   }
 
   constructor() {

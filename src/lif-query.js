@@ -267,6 +267,9 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
 
     this.__map[key] = value;
     this.__remote.splice(previousChildIndex + 1, 0, value);
+    
+    // Note(cg): we need a new Object, otherwise Polymer will not be notified of array mutation..
+    this.__remote = [...this.__remote];
     this.dispatchValue();
   }
 
@@ -280,8 +283,10 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
     if (value) {
       this.__map[key] = null;
       if (this.__indexFromKey(key) >= 0) {
+        // Note(cg): we need a new Object, otherwise Polymer will not be notified of array mutation..
         this.__remote.splice(this.__indexFromKey(key), 1);
       }
+     this.__remote = [...this.__remote];
      this.dispatchValue();
     }
   }
@@ -311,6 +316,7 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
       }
 
     }
+    this.__remote = [...this.__remote];
     this.dispatchValue();
   }
 
@@ -328,6 +334,7 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
       this.__remote.splice(index, 1);
       this.__remote.splice(targetIndex, 0, this.__map[key]);
 
+      this.__remote = [...this.__remote];
       this.dispatchValue();
 
     }
