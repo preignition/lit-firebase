@@ -71,6 +71,19 @@ class LifSpan extends FirebaseDatabase(LitElement) {
         type: Boolean,
       },
 
+      /*
+       * `asyncValue` event to dispach when value changes.
+       * When true, dispatch a 'async-value' event
+       * 
+       * This is useful when lif-span is used in lists and the value 
+       * changes async. We need a mechanism to reflect the change
+       * on selected value
+       */
+      asyncValue: {
+        type: Boolean,
+        attribute: 'async-value'
+      },
+
 
     }
   }
@@ -129,7 +142,7 @@ class LifSpan extends FirebaseDatabase(LitElement) {
     }
   }
 
-  onValue(snap) {
+  async onValue(snap) {
     this.__remote = snap.val();
     this.loading = false; 
     this.log && console.info('data from db', this.__remote) 
@@ -141,6 +154,10 @@ class LifSpan extends FirebaseDatabase(LitElement) {
     this.value = this.__remote;
     this.exists = this.__remote !== null;
     this.dispatchValue();
+    if (this.asyncValue) {
+      await this.updateComplete;
+      this.dispatchEvent(new CustomEvent('async-value', {bubbles: true, composed: true})); 
+    }
   }
 }
 
