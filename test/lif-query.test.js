@@ -1,6 +1,7 @@
 import { html, fixture, expect } from '@open-wc/testing';
 import firebase from 'firebase/app';
-import * as database from 'firebase/database';
+import 'firebase/database';
+// import * as database from 'firebase/database';
 
 
 import '../src/lif-query.js';
@@ -65,7 +66,7 @@ describe('Lit Firebase Query', () => {
     let val;
 
     const el = await fixture(html `
-      <lif-query log path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
+      <lif-query path="/testQuery" @data-changed="${(e) => {val = e.detail.value; }}"></lif-query>
     `);
 
     expect(val.length).to.equal(1);

@@ -1,6 +1,7 @@
 import { html, fixture, expect, elementUpdated, aTimeout  } from '@open-wc/testing';
 import firebase from 'firebase/app';
-import * as database from 'firebase/database';
+import 'firebase/database';
+// import * as database from 'firebase/database';
 
 
 import '../src/lif-document.js';
@@ -74,12 +75,12 @@ describe('Lit Firebase Document', () => {
 
     let val;
     const data = { a: 1 };
-    firebase.app().database().ref('/testDocument/myValue').remove()
+    // firebase.app().database().ref('/testDocument/myValue').remove()
 
     const el = await fixture(html `
-      <lif-document  .data="${data}" path="/testDocument/myValue" @data-changed="${(e) => {val = e.detail.value}}"></lif-document>
+      <lif-document .data="${data}" path="/testDocument/myValue" @data-changed="${(e) => {if(e.detail.value) {val = e.detail.value}}}"></lif-document>
     `);
-
+    await elementUpdated(el);
     expect(val.a).to.equal(1);
   });
 

@@ -1,6 +1,6 @@
 import { html, fixture, expect, elementUpdated, aTimeout  } from '@open-wc/testing';
 import firebase from 'firebase/app';
-import * as database from 'firebase/database';
+import 'firebase/database';
 
 
 import '../src/lif-span.js';
@@ -51,16 +51,12 @@ describe('Lit Firebase Span', () => {
   it('reacts when we update data value', async () => {
 
     const el = fixture(html `
-      <lif-span log path="/testDocument/a" ></lif-span>
+      <lif-span path="/testDocument/a" ></lif-span>
     `);
     aTimeout(2000);
     await elementUpdated(el);
-
+    console.info(el.innerText);
     expect(el.value).to.equal(2);
     expect(el.innerText).to.equal('2');
   })
-
-
-
-
 });
