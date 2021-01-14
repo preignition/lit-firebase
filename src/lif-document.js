@@ -9,10 +9,6 @@ class LifDocument extends FirebaseDatabase(UpdatingElement) {
     }
   }
 
-  set() {
-    console.info('set LIF', this, arguments);
-  }
-
   get data() {
     return this.__remote;
   }
@@ -29,7 +25,11 @@ class LifDocument extends FirebaseDatabase(UpdatingElement) {
 
     // Note(cg): only set data once __remote is known.
     if (this.__remote === undefined) {
-      this.addEventListener('data-changed', () => { setData(value) }, { once: true })
+      this.addEventListener('data-changed', () => { 
+        // Note(cg): override persisted data only if remote is null.
+        if(this._remote === null) {
+          setData(value);
+        }}, { once: true })
       return;
     }
     setData(value);
