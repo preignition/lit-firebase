@@ -5,14 +5,8 @@
  */
 import  FirebaseApp from './lif-app-mixin.js';
 import NetworkStatus from './lif-network-status-mixin.js';
+import pathReady from './pathReady.js';
 
-
-/**
- * cheks whether path is a valid path
- * @param  {String} path firebase database path
- * @return {Boolean}      true if path is valid
- */
-const pathReady = (path) => path && path.split('/').slice(1).indexOf('') < 0;
 
 export const Mixin = (baseElement) => class extends NetworkStatus(FirebaseApp(baseElement)) {
 
