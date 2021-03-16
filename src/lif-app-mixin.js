@@ -50,7 +50,7 @@ export const appMixin = (baseElement) => class extends baseElement {
 
   onError(err) {
     this.log && console.error(err);
-    this.dispatchEvent(new CustomEvent('error', { detail: err, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('error', { detail: err }));
   }
 }
 
