@@ -19,13 +19,6 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
     return {
       ...super.properties,
 
-      /*
-       * `data` 
-       */
-      // data: {
-      //   type: Array,
-      // },
-
       /**
        * [`firebase.database.Query`](https://firebase.google.com/docs/reference/js/firebase.database.Query#property)
        * object computed by the following parameters.
@@ -120,6 +113,12 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
 
   set data(value) {
     // Note(cg): do nothing. But we need a setter
+  }
+  
+  static get styles() {
+    return css`:host{
+      display:none;
+    }`
   }
 
   constructor() {

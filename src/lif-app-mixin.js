@@ -36,7 +36,7 @@ export const appMixin = (baseElement) => class extends baseElement {
   update(props) {
     super.update(props);
     if (props.has('appName') && (!this.app || this.app.name !== this.appName || (this.appName === '' && this.app.name !== '[DEFAULT]'))) {
-      if(firebase) {
+      if(window.firebase) {
         this.app = firebase.app(this.appName);
       }
       else {

@@ -16,9 +16,10 @@ const inner = (content) => {
   `;
 };
 
+const identity = value => value;
+
 class LifSpan extends FirebaseDatabase(LitElement) {
 
-  
   static get properties() {
     return {
       
@@ -106,7 +107,7 @@ class LifSpan extends FirebaseDatabase(LitElement) {
 
   constructor() {
     super();
-    this.format = (value) => value;
+    this.format = identity
     this.defaultValue = '';
     this.errorValue = '⚠';
     this.inner = false;
@@ -146,7 +147,7 @@ class LifSpan extends FirebaseDatabase(LitElement) {
     this.__remote = snap.val();
     this.loading = false; 
     this.log && console.info('data from db', this.__remote) 
-    if (Object(this.__remote) === this.__remote) {
+    if ((Object(this.__remote) === this.__remote) && this.format === identity) {
       this.log && console.warn('expecting a primitive, got an object', this.path)
       this.value = this.errorValue;
       return;
