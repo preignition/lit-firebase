@@ -1,7 +1,7 @@
 import { UpdatingElement } from 'lit-element';
 import FirebaseApp from './lif-app-mixin.js';
 import pathReady from './pathReady.js';
-
+import "firebase/storage";
 class LifDownloadUrl extends FirebaseApp(UpdatingElement) {
 
   static get properties() {

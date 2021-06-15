@@ -218,7 +218,7 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
     // need help to fix this so that this function is only called once
 
     if (query) {
-      query.on('value', this.__onFirebaseValue, this.onError, this);
+      query.once('value', this.__onFirebaseValue, this.onError, this);
     }
   }
 
@@ -239,9 +239,6 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
 
       this.__remote = data;
     }
-    this.dispatchValue();
-    // this.dispatchChange(false, !!this._remote);
-    this.log && console.info('set value', this.__remote);
 
     const { query } = this;
 
@@ -249,6 +246,10 @@ class LifQuery extends FirebaseDatabase(UpdatingElement) {
     query.on('child_removed', this.__onFirebaseChildRemoved, this.onError, this);
     query.on('child_changed', this.__onFirebaseChildChanged, this.onError, this);
     query.on('child_moved', this.__onFirebaseChildMoved, this.onError, this);
+    
+    this.dispatchValue();
+    // this.dispatchChange(false, !!this._remote);
+    this.log && console.info('set value', this.__remote);
   }
 
   __onFirebaseChildAdded(snapshot, previousChildKey) {
