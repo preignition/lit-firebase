@@ -3,11 +3,11 @@ import { default as FirebaseDatabase } from './lif-database-mixin.js';
 
 class LifDocument extends FirebaseDatabase(UpdatingElement) {
 
-  static get properties() {
-    return {
-      ...super.properties,
-    }
-  }
+  // static get properties() {
+  //   return {
+  //     ...super.properties
+  //   }
+  // }
 
   get data() {
     return this.__remote;
