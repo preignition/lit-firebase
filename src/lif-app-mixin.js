@@ -36,21 +36,28 @@ export const appMixin = (baseElement) => class extends baseElement {
   update(props) {
     super.update(props);
     if (props.has('appName') && (!this.app || this.app.name !== this.appName || (this.appName === '' && this.app.name !== '[DEFAULT]'))) {
-      if(window.firebase) {
+      if (window.firebase) {
         this.app = firebase.app(this.appName);
       }
       else {
         window.addEventListener('firebase-app-initialized', () => {
-           this.app = firebase.app(this.appName);   
-        }, {once: true})
+          this.app = firebase.app(this.appName);
+        }, { once: true })
       }
     }
   }
 
 
   onError(err) {
-    this.log && console.error(err);
+    console.error(err);
     this.dispatchEvent(new CustomEvent('error', { detail: err }));
+    // Note(CG): record this on firebase
+    if (window.firebase.analytics) {
+      firebase.analytics().logEvent('firebase_database_error', {
+        error: err
+      });
+    }
+
   }
 }
 
