@@ -19,15 +19,16 @@ class LifDocument extends FirebaseDatabase(UpdatingElement) {
       if (val !== this.__remote || (val === Object(val) && JSON.stringify(val) !== JSON.stringify(this.__remote))) {
         this.log && console.info('settings value to remote', val);
         this.ref.set(val)
-          .catch(e => this.onError(e));
+        .catch(e => this.onError(e));
       }
     }
-
+    
     // Note(cg): only set data once __remote is known.
     if (this.__remote === undefined) {
       this.addEventListener('data-changed', () => { 
         // Note(cg): override persisted data only if remote is null.
-        if(this._remote === null) {
+        this.log && console.info('settings value to remote once', val);
+        if(this.__remote === null) {
           setData(value);
         }}, { once: true })
       return;
